@@ -1,0 +1,80 @@
+services:
+  r1:
+    image: bird-router
+    hostname: r1
+    cap_add: [NET_ADMIN]
+    sysctls:
+      net.ipv4.ip_forward: 1
+    volumes:
+      - ./${PROTO}/r1.conf:/etc/bird/bird.conf
+    networks:
+      lan1: { ipv4_address: 192.168.1.11 }
+      net12: { ipv4_address: 10.0.12.11 }
+      net15: { ipv4_address: 10.0.15.11 }
+
+  r2:
+    image: bird-router
+    hostname: r2
+    cap_add: [NET_ADMIN]
+    sysctls:
+      net.ipv4.ip_forward: 1
+    volumes:
+      - ./${PROTO}/r2.conf:/etc/bird/bird.conf
+    networks:
+      lan2: { ipv4_address: 192.168.2.12 }
+      net12: { ipv4_address: 10.0.12.12 }
+      net23: { ipv4_address: 10.0.23.12 }
+
+  r3:
+    image: bird-router
+    hostname: r3
+    cap_add: [NET_ADMIN]
+    sysctls:
+      net.ipv4.ip_forward: 1
+    volumes:
+      - ./${PROTO}/r3.conf:/etc/bird/bird.conf
+    networks:
+      lan3: { ipv4_address: 192.168.3.13 }
+      net23: { ipv4_address: 10.0.23.13 }
+      net34: { ipv4_address: 10.0.34.13 }
+
+  r4:
+    image: bird-router
+    hostname: r4
+    cap_add: [NET_ADMIN]
+    sysctls:
+      net.ipv4.ip_forward: 1
+    volumes:
+      - ./${PROTO}/r4.conf:/etc/bird/bird.conf
+    networks:
+      lan4: { ipv4_address: 192.168.4.14 }
+      net34: { ipv4_address: 10.0.34.14 }
+      net45: { ipv4_address: 10.0.45.14 }
+
+  r5:
+    image: bird-router
+    hostname: r5
+    cap_add: [NET_ADMIN]
+    sysctls:
+      net.ipv4.ip_forward: 1
+    volumes:
+      - ./${PROTO}/r5.conf:/etc/bird/bird.conf
+    networks:
+      lan5: { ipv4_address: 192.168.5.15 }
+      net45: { ipv4_address: 10.0.45.15 }
+      net15: { ipv4_address: 10.0.15.15 }
+
+x-no-nat: &no-nat
+  com.docker.network.bridge.enable_ip_masquerade: "false"
+
+networks:
+  lan1: { driver_opts: *no-nat, ipam: { config: [{ subnet: 192.168.1.0/24 }] } }
+  lan2: { driver_opts: *no-nat, ipam: { config: [{ subnet: 192.168.2.0/24 }] } }
+  lan3: { driver_opts: *no-nat, ipam: { config: [{ subnet: 192.168.3.0/24 }] } }
+  lan4: { driver_opts: *no-nat, ipam: { config: [{ subnet: 192.168.4.0/24 }] } }
+  lan5: { driver_opts: *no-nat, ipam: { config: [{ subnet: 192.168.5.0/24 }] } }
+  net12: { driver_opts: *no-nat, ipam: { config: [{ subnet: 10.0.12.0/24 }] } }
+  net23: { driver_opts: *no-nat, ipam: { config: [{ subnet: 10.0.23.0/24 }] } }
+  net34: { driver_opts: *no-nat, ipam: { config: [{ subnet: 10.0.34.0/24 }] } }
+  net45: { driver_opts: *no-nat, ipam: { config: [{ subnet: 10.0.45.0/24 }] } }
+  net15: { driver_opts: *no-nat, ipam: { config: [{ subnet: 10.0.15.0/24 }] } }
