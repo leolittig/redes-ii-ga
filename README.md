@@ -1,5 +1,7 @@
 # Trabalho GA - Roteamento com BIRD
 
+https://youtu.be/DmMF0JtXr0o
+
 Leonardo Littig - Redes II
 
 Topologia em anel com 5 roteadores BIRD em containers Docker, em 3 sistemas autônomos
